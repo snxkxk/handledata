@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<!--注意：引入thymeleaf的名称空间-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Window-target" content="_top">
+    <title>数据处理</title>
+
+    <link href="/plugins/jquery-ui-1.12.1.custom/jquery-ui.css" th:href="@{/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}" rel="stylesheet">
+
+    <link href="/css/common.css" th:href="@{/css/common.css}" rel="stylesheet">
+
+    <script src="/js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script src="/plugins/jquery-ui-1.12.1.custom/jquery-ui.js" th:src="@{/plugins/jquery-ui-1.12.1.custom/jquery-ui.js}"></script>
+
+    <script type="text/javascript" src="/js/common.js" th:src="@{/js/common.js}"></script>
+
+    <style>
+
+
+        /* CSS注释：设置对象边框、宽度、高度 便于观察布局效果 */
+    </style>
+    <script type="application/javascript">
+        $(document).ready(function(){
+            initStyle();
+            setBtnCountdown();
+        });
+
+
+        function setBtnCountdown() {
+            $("#btn_login").click(function () {
+                var keyVal= $("#input_key").val();
+                if(keyVal!=""){
+                    $.post("/user/login",{"key":keyVal},function(result){
+                        if("error"==result){
+                            $("#input_key").val("");
+                            $("#input_key").attr("placeholder","请输入正确的指令");
+                            return;
+                        }else if("success"==result){
+                            initLoginBtn();
+                        }
+                    });
+                }else {
+                    $("#input_key").attr("placeholder","请输入指令");
+                    return;
+                }
+            });
+
+            $("#btn_list").click(function () {
+                //getStudyActionRecordList();
+                window.open("/studyActionRecord/grid");
+            });
+            $("#btn_logout").click(function () {
+                $("#btn_list").hide();
+                $("#btn_logout").hide();
+                $.get("/user/logout",function(data,status){
+                    if("success"==data){
+                        location.href="/";                    }
+                });
+            });
+        }
+
+        function initLoginBtn(){
+            $.get("/redis/getCountdown?key=btn_login&type=get", function(data){
+                var jsonData = $.parseJSON(data);
+                var btn_expire = jsonData.expire;
+                if(jsonData.expire>0){
+                    Countdown(btn_expire);
+                    $("#btn_login").attr("disabled",true);
+                    $("#btn_login").attr("title","1小时只能登录一次,倒计时结束后再登录");
+                    $("#btn_list").show();
+                    $("#btn_logout").show();
+                    $("#div_login").hide();
+
+                }
+
+            });
+
+        }
+
+        function Countdown(count) {
+            window.setTimeout(function(){
+                count--;
+                if(count > 0) {
+                    $("#span_login").text("("+count+")");
+                    Countdown(count);
+                } else {
+                    $("#span_login").text("");
+                    $("#btn_login").attr("disabled",false);
+                    $("#btn_list").hide();
+                    $("#btn_logout").hide();
+
+                    $("#btn_login").attr("title","点击登录系统");
+                }
+            }, 1000);
+        }
+
+        function initStyle() {
+            var userName= '[[${session.record?.loginPalce}]]';
+            if(userName ==""){
+                $("#btn_list").hide();
+                $("#btn_logout").hide();
+
+            }else {
+                initLoginBtn();
+                $("#btn_list").show();
+                $("#btn_logout").show();
+
+            }
+
+
+            $("button:first").button({
+                icons: {
+                    primary: "ui-icon-locked"
+                },
+                text: true
+            }).next().button({
+                icons: {
+                    primary: "ui-icon-locked"
+                },
+                text: true
+            }).next().button({
+                icons: {
+                    primary: "ui-icon-locked"
+                },
+                text: true
+            });
+
+            $("#elem").animate({
+                color: "green",
+                backgroundColor: "rgb( 245, 245, 245 )"
+            });
+        }
+
+
+        function getStudyActionRecordList(data) {
+            if(data == null){
+                data = {"pageNum":1,"pageSize":0};
+            }
+            $.get("/studyActionRecord/list",data,function(data, textStatus, jqXHR){
+                console.info(data);
+                var jsonData = $.parseJSON(data);
+                alert(jsonData.msg);
+
+            });
+        }
+
+
+    </script>
+
+
+</head>
+
+<body>
+<div id="elem" class="v-align">
+    处理数据专用程序
+</div>
+<hr>
+<button id="btn_login" title="点击登录系统">login<span id="span_login"></span></button>
+<button id="btn_list" title="查看StudyActionRecord数据">列表</button>
+<button id="btn_logout" title="退出">logout</button>
+<span style="position:absolute; right:0px; top:0px; width:80px; height:30px;" th:text="${session.record?.loginPalce}">
+</span>
+<div id="div_login">
+    <label for="input_key">请输入密钥:</label><input id ="input_key" title="请输入密钥">
+</div>
+
+
+</body>
+</html>

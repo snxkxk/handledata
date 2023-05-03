@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="/js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <meta charset="UTF-8">
+    <title>500异常</title>
+    <script type="application/javascript">
+        $(document).ready(function(){
+            function jump(count) {
+                window.setTimeout(function(){
+                    count--;
+                    if(count > 0) {
+                        $('#num').val(count);
+                        jump(count);
+                    } else {
+                        location.href="/";
+                    }
+                }, 1000);
+            }
+            jump(5);
+        });
+
+
+    </script>
+    <script th:inline="javascript">
+        var msg = [[${errorMsg}]];
+        //alert(msg);
+    </script>
+</head>
+<body>
+<h3>糟糕! 服务器出错啦~~(>_<)~~</h3>
+    异常信息如下:<br/>
+    <p>错误信息：[[${errorMsg}]]!</p>
+    <div>
+    <input id="num" disabled="disabled" style="border: 0px;width: 60px;height: 25px"> 秒后跳转主页</div>
+</body>
+</html>

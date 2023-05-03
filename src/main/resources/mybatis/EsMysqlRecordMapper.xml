@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.batgm.handledata.dao.EsMysqlRecordMapper">
+  <resultMap id="BaseResultMap" type="com.batgm.handledata.entity.EsMysqlRecord">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <constructor>
+      <idArg column="id" javaType="java.math.BigInteger" jdbcType="BIGINT" />
+      <idArg column="table_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="ct" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="total" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+
+  <sql id="base_column">
+    id, create_time, update_time, table_name, num
+  </sql>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.batgm.handledata.dao.StudyActionRecordMapper">
+  <resultMap id="BaseResultMap" type="com.batgm.handledata.entity.StudyActionRecord">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <constructor>
+      <arg column="id" javaType="java.math.BigInteger" jdbcType="BIGINT" />
+      <arg column="project_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="study_circle_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="subject_table_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="father_table_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="study_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="video_time" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="study_time" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="action" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="login_palce" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="device_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="ip_address" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="study_plan_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="course_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="detail_table_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+</mapper>
